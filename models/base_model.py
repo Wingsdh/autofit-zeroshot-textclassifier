@@ -5,11 +5,28 @@ from typing import List
 class TextClassifier(ABC):
     """Base abstract class for text classifier"""
 
-    def labels(self) -> List[str]:
+    def __init__(
+        self,
+    ):
+        self._labels = []
+
+    def read_labels(self, label_path):
+        labels = []
+        with open(label_path, "r", encoding="utf-8") as fd:
+            for line in fd:
+                labels.append(line.strip())
+        self.labels = labels
+
+    @property
+    def labels(self):
         """
         support labels, e.g. , [Business & Finance, Entertainment & Music, ...] in topic classes
         """
-        raise NotImplementedError
+        return self._labels
+
+    @labels.setter
+    def labels(self, value):
+        self._labels = value
 
     @abstractmethod
     def classify(self, text: str) -> str:
