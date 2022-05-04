@@ -1,0 +1,5 @@
+
+amazon/word2vec.bin
+models/__pycache__
+news
+utils/__pycache__

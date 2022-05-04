@@ -1,12 +1,16 @@
 from abc import ABC, abstractmethod
 from typing import List
 
+from utils.log_utils import logger
+
 
 class TextClassifier(ABC):
     """Base abstract class for text classifier"""
 
     def __init__(
         self,
+        *args,
+        **kwargs,
     ):
         self._labels = []
 
@@ -16,6 +20,8 @@ class TextClassifier(ABC):
             for line in fd:
                 labels.append(line.strip())
         self.labels = labels
+        logger.info(f"Read {len(self.labels)} from {label_path}")
+        logger.info(f"Labels: {self.labels}")
 
     @property
     def labels(self):
@@ -47,6 +53,10 @@ class TextClassifier(ABC):
 class SelfTrainable(ABC):
     """The model can be trained by a unlabeled text corpus"""
 
+    def __init__(self, *args, **kwargs):
+        pass
+
+    @abstractmethod
     def fit(self, texts: List[str]):
         """fit.
 
@@ -68,9 +78,8 @@ class SelfTrainable(ABC):
         """
         raise NotImplementedError
 
-    @classmethod
     @abstractmethod
-    def load(cls, model_path: str):
+    def load(self, model_path: str):
         """load.
 
         Parameters

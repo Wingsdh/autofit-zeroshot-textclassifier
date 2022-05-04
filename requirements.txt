@@ -1,0 +1,5 @@
+loguru
+gensim
+nltk
+fire
+
